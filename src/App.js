@@ -1,24 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Movies from   './components/movie/movies' 
+import DataInput from './components/dataInput'
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <main className="container" style={{marginRight: 0+"em",marginLeft: 0}}>
+     {/* <Movies/> */}
+     <DataInput/>
+     
+   </main>
   );
 }
 
