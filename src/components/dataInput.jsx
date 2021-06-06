@@ -15,7 +15,7 @@ class DataInput extends Component {
     columns:[]
    }
    async componentDidMount(){
-    const response=await axios.get('http://127.0.0.1:8000/dryout/api/emp/');
+    const response=await axios.get('http://127.0.0.1:8000/dryout/api/yv208/');
     const colKey=[]
     Object.keys(response.data[0]).map(col=>colKey.push({path:col,label:col}));
     // delete option
@@ -49,8 +49,10 @@ getPageContentToDisplay=()=>{
     const {Count,data}=this.getPageContentToDisplay();
     const {pageSize,CurrentPage,sortColumn,columns}=this.state;
     if(Count===0) return <p>There are No data in Database</p>;
-    return (  <div className="row">
+    return (  
+    <div className="row">
     <div className='col-3'>
+    <a href="http://127.0.0.1:8000/dryout/upload">iocl</a>
     <p>Showing {Count} data  in Database</p>
     <Paginator Count={Count}
      pageSize={pageSize} 

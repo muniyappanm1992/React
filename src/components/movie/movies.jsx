@@ -6,7 +6,6 @@ import MovieTable from   './movieTable';
 import ListGroup from   '../../common/listGroup';
 import {paginate} from '../../utils/paginate';
 import _ from 'lodash'
-import axios from 'axios'
 class Movies extends Component {
     state = {
         movies:[],
