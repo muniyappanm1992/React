@@ -7,6 +7,7 @@ import axios from 'axios'
 class DataInput extends Component {
  
   state = { 
+    baseUrl:'http://127.0.0.1:8000/dryout/api/yv26/',
     data:[],
     genres:[],
     pageSize:50,
@@ -15,8 +16,9 @@ class DataInput extends Component {
     columns:[]
    }
    async componentDidMount(){
-    const response=await axios.get('http://127.0.0.1:8000/dryout/api/yv208/');
+    const response=await axios.get(this.state.baseUrl);
     const colKey=[]
+    if (response.data.length!==0)
     Object.keys(response.data[0]).map(col=>colKey.push({path:col,label:col}));
     // delete option
     if(true)
@@ -25,7 +27,9 @@ class DataInput extends Component {
     this.setState({data: response.data ,columns:colKey});
   }
 
-  handleDelete=(dataDelete)=>{
+  handleDelete=async (dataDelete)=>{ 
+    const x=axios.delete(this.state.baseUrl+dataDelete.id);
+    console.log(x);
   const data=this.state.data.filter(d=>d.id!==dataDelete.id);
    this.setState({data});
 
