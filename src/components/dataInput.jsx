@@ -5,9 +5,8 @@ import {paginate} from '../utils/paginate';
 import _ from 'lodash'
 import axios from 'axios'
 class DataInput extends Component {
- 
   state = { 
-    baseUrl:'http://127.0.0.1:8000/dryout/api/yv26/',
+    baseUrl:'http://127.0.0.1:8000/dryout/api/emp/',
     data:[],
     genres:[],
     pageSize:50,
@@ -16,6 +15,10 @@ class DataInput extends Component {
     columns:[]
    }
    async componentDidMount(){
+    this.getRestAPi();
+  }
+
+  getRestAPi=async ()=>{
     const response=await axios.get(this.state.baseUrl);
     const colKey=[]
     if (response.data.length!==0)
@@ -27,11 +30,27 @@ class DataInput extends Component {
     this.setState({data: response.data ,columns:colKey});
   }
 
+handleAdd=async ()=>{
+  const obj={Name:"Muniyappan",Age:"28"}
+  const response=await axios.post(this.state.baseUrl,obj)
+  const temp=[response.data,...this.state.data]
+  this.setState({data: temp});
+  if (this.state.data.length===1) this.getRestAPi();
+}
+
   handleDelete=async (dataDelete)=>{ 
-    const x=axios.delete(this.state.baseUrl+dataDelete.id);
-    console.log(x);
-  const data=this.state.data.filter(d=>d.id!==dataDelete.id);
-   this.setState({data});
+    const x=await axios.delete(this.state.baseUrl+dataDelete.id);
+    try {
+      if (x.status===204){
+        const data=this.state.data.filter(d=>d.id!==dataDelete.id);
+        this.setState({data});
+        return;
+      }
+      
+    } catch (error) {
+      console.log(error);
+      this.getRestAPi();
+    }
 
 }
 handlePageChange=(page)=> {
@@ -52,8 +71,14 @@ getPageContentToDisplay=()=>{
   render() { 
     const {Count,data}=this.getPageContentToDisplay();
     const {pageSize,CurrentPage,sortColumn,columns}=this.state;
-    if(Count===0) return <p>There are No data in Database</p>;
-    return (  
+    if(Count===0) return (<div>
+            <button onClick={this.handleAdd} 
+    className="btn btn-primary btn-sm m-2">Add</button>
+      <p>There are No data in Database</p>
+      </div>);
+    return (  <div>
+      <button onClick={this.handleAdd} 
+    className="btn btn-primary btn-sm m-2">Add</button>
     <div className="row">
     <div className='col-3'>
     <a href="http://127.0.0.1:8000/dryout/upload">iocl</a>
@@ -63,7 +88,8 @@ getPageContentToDisplay=()=>{
      CurrentPage={CurrentPage} onPageChange={this.handlePageChange}/>
     <Table columns={columns} sortColumn={sortColumn} data={data} onSort={this.handleSort}/>
 </div>
-</div> );
+</div> 
+</div>);
   }
 }
  

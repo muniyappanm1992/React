@@ -4,6 +4,7 @@ class TableBody extends Component {
     renderCell=(item,column)=>{
         if(column.content) return column.content(item);
         return _.get(item,column.path)
+        // same as above: return item[column.path];
     };
     render() { 
         const {data,columns}=this.props;
