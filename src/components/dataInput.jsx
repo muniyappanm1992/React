@@ -6,19 +6,18 @@ import _ from 'lodash'
 import axios from 'axios'
 class DataInput extends Component {
   state = { 
-    baseUrl:'http://127.0.0.1:8000/dryout/api/emp/',
+    baseUrl:'http://127.0.0.1:8000/dryout/api/yv208/',
     data:[],
-    genres:[],
-    pageSize:50,
+    pageSize:10,
     CurrentPage:1,
-    sortColumn:{path:'id' ,order:'asc'},
+    sortColumn:{path:'id' ,order:'desc'},
     columns:[]
    }
    async componentDidMount(){
     this.getRestAPi();
   }
 
-  getRestAPi=async ()=>{
+getRestAPi=async ()=>{
     const response=await axios.get(this.state.baseUrl);
     const colKey=[]
     if (response.data.length!==0)
@@ -38,9 +37,9 @@ handleAdd=async ()=>{
   if (this.state.data.length===1) this.getRestAPi();
 }
 
-  handleDelete=async (dataDelete)=>{ 
-    const x=await axios.delete(this.state.baseUrl+dataDelete.id);
+handleDelete=async (dataDelete)=>{ 
     try {
+      const x=await axios.delete(this.state.baseUrl+dataDelete.id);
       if (x.status===204){
         const data=this.state.data.filter(d=>d.id!==dataDelete.id);
         this.setState({data});
